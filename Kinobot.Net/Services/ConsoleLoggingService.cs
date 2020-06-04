@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Kinobot.Net.Services
 {
-	public class LoggingService : ILoggingService
+	public class ConsoleLoggingService : ILoggingService
 	{
 		private readonly DiscordSocketClient SocketClient;
 		private readonly CommandService CommandService;
 
-		public LoggingService(DiscordSocketClient socketClient, CommandService commandService)
+		public ConsoleLoggingService(DiscordSocketClient socketClient, CommandService commandService)
 		{
 			SocketClient = socketClient;
 			CommandService = commandService;
@@ -24,6 +24,12 @@ namespace Kinobot.Net.Services
 		public Task LogAsync(LogMessage message)
 		{
 			Console.WriteLine(message.ToString());
+			return Task.CompletedTask;
+		}
+
+		public Task LogStringAsync(string message)
+		{
+			Console.WriteLine(message);
 			return Task.CompletedTask;
 		}
 	}

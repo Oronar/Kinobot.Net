@@ -1,6 +1,9 @@
-﻿using Discord;
+﻿using AutoMapper;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Kinobot.Net.Repositories;
+using Kinobot.Net.Repositories.Contracts;
 using Kinobot.Net.Services;
 using Kinobot.Net.Services.Contracts;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using TMDbLib.Client;
 
 namespace Kinobot.Net
 {
@@ -49,11 +53,21 @@ namespace Kinobot.Net
 
 		private void ConfigureServices(IServiceCollection services)
 		{
+			// Bot service setup
 			services.AddSingleton(Configuration);
 			services.AddSingleton<ICommandHandlerService, CommandHandlerService>();
 			services.AddSingleton<CommandService>();
 			services.AddSingleton<DiscordSocketClient>();
-			services.AddTransient<ILoggingService, LoggingService>();
+			services.AddSingleton<ILoggingService, ConsoleLoggingService>();
+
+			// Mapper service setup
+			services.AddAutoMapper(typeof(Startup));
+
+			// API key setup
+			services.AddSingleton(new TMDbClient(Configuration.GetSection("TMDbApiKey").Value));
+
+			services.AddScoped<IMovieRepository, TMDbMovieRepository>();
+			services.AddTransient<IMovieService, MovieService>();
 		}
 	}
 }

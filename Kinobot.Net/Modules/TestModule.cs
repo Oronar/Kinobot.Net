@@ -8,9 +8,9 @@ namespace Kinobot.Net.Modules
 	{
 		[Command("test")]
 		[Summary("Test command")]
-		public Task TestAsync()
+		public async Task TestAsync()
 		{
-			return ReplyAsync("Test successful, bot is functioning.");
+			await ReplyAsync("Test successful, bot is functioning.");
 		}
 	}
 }
