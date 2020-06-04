@@ -27,7 +27,7 @@ namespace Kinobot.Net.Services
 			return Task.CompletedTask;
 		}
 
-		public Task LogStringAsync(string message)
+		public Task LogAsync(string message)
 		{
 			Console.WriteLine(message);
 			return Task.CompletedTask;

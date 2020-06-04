@@ -21,20 +21,23 @@ namespace Kinobot.Net.Repositories
 
 		public async Task<Movie> GetAsync(int id)
 		{
-			var movie = mapper.Map<Movie>(await tmdbClient.GetMovieAsync(id));
+			var movie = await tmdbClient.GetMovieAsync(id);
 
 			if (movie == null)
 			{
 				throw new KeyNotFoundException($"TMDB ID {id} not found.");
 			}
 
-			return movie;
+
+
+			return mapper.Map<Movie>(movie);
 		}
 
-		public async Task<IEnumerable<Movie>> SearchAsync(string query)
+		public async Task<IEnumerable<Movie>> SearchAsync(string query, int page = 0)
 		{
-			var searchContainer = await tmdbClient.SearchMovieAsync(query);
+			var searchContainer = await tmdbClient.SearchMovieAsync(query, page);
 			return searchContainer.Results.Select(m => mapper.Map<Movie>(m));
 		}
+
 	}
 }

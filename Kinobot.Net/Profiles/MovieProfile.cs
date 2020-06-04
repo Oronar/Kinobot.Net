@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Kinobot.Net.Models;
+using TMDbLib.Objects.Search;
 
 namespace Kinobot.Net.Profiles
 {
@@ -7,8 +8,10 @@ namespace Kinobot.Net.Profiles
 	{
 		public MovieProfile()
 		{
-			CreateMap<TMDbLib.Objects.Movies.Movie, Movie>()
-				.ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title));
+			CreateMap<TMDbLib.Objects.Movies.Movie, Movie>();
+
+			CreateMap<SearchMovie, Movie>();
+
 		}
 	}
 }

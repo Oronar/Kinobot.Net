@@ -7,6 +7,6 @@ namespace Kinobot.Net.Services.Contracts
 	{
 		Task LogAsync(LogMessage message);
 
-		Task LogStringAsync(string message);
+		Task LogAsync(string message);
 	}
 }

@@ -2,6 +2,8 @@
 using Kinobot.Net.Modules.Contracts;
 using Kinobot.Net.Services.Contracts;
 using System;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Kinobot.Net.Modules
@@ -29,14 +31,32 @@ namespace Kinobot.Net.Modules
 			}
 			catch (Exception e)
 			{
-				await loggingService.LogStringAsync(e.ToString());
+				await loggingService.LogAsync(e.ToString());
 				await ReplyAsync($"Movie not found: {e.Message}");
 			}
 		}
 
-		public Task SearchMovieAsync(string query)
+		[Command("movie")]
+		[Summary("Search movie by title.")]
+		public async Task SearchMovieAsync(params string[] query)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				var results = await movieService.SearchAsync(string.Join(" ", query));
+
+				var response = new StringBuilder($"{results.Count()} results:{Environment.NewLine}");
+				foreach (var result in results)
+				{
+					response.AppendLine($"{result.Title} ({result.Id})");
+				}
+
+				await ReplyAsync(response.ToString());
+			}
+			catch (Exception e)
+			{
+				await loggingService.LogAsync(e.ToString());
+				await ReplyAsync($"Move not found: {e.Message}");
+			}
 		}
 	}
 }
