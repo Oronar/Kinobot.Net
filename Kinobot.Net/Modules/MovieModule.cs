@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Kinobot.Net.Modules.Contracts;
 using Kinobot.Net.Services.Contracts;
 using System;
 using System.Linq;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Kinobot.Net.Modules
 {
-	public class MovieModule : ModuleBase<SocketCommandContext>, IMovieModule
+	public class MovieModule : ModuleBase<SocketCommandContext>
 	{
 		private readonly ILoggingService loggingService;
 		private readonly IMovieService movieService;

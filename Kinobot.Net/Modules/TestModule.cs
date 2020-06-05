@@ -1,10 +1,9 @@
 ﻿using Discord.Commands;
-using Kinobot.Net.Modules.Contracts;
 using System.Threading.Tasks;
 
 namespace Kinobot.Net.Modules
 {
-	public class TestModule : ModuleBase<SocketCommandContext>, ITestModule
+	public class TestModule : ModuleBase<SocketCommandContext>
 	{
 		[Command("test")]
 		[Summary("Test command")]
