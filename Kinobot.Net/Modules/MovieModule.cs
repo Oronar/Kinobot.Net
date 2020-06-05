@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Kinobot.Net.Modules.Contracts;
 using Kinobot.Net.Services.Contracts;
 using System;
@@ -26,8 +27,16 @@ namespace Kinobot.Net.Modules
 			try
 			{
 				var movie = await movieService.GetAsync(id);
+				var embed = new EmbedBuilder()
+					.WithTitle(movie.Title)
+					.WithDescription(movie.Description)
+					.WithFooter("Data via https://www.themoviedb.org")
+					.WithImageUrl(movie.ImageUrl)
+					.AddField("Release Date", movie.ReleaseDate)
+					.AddField("Genres", string.Join(", ", movie.Genres))
+					.Build();
 
-				await ReplyAsync($"Movie Found: {movie.Title}");
+				await ReplyAsync(embed: embed);
 			}
 			catch (Exception e)
 			{

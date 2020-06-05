@@ -9,5 +9,7 @@ namespace Kinobot.Net.Repositories.Contracts
 		Task<Movie> GetAsync(int id);
 
 		Task<IEnumerable<Movie>> SearchAsync(string query, int page = 0);
+
+		string GetImageUrl(string filePath, string size = "original");
 	}
 }
