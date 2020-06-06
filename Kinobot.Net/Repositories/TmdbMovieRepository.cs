@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Kinobot.Net.Repositories.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,11 @@ namespace Kinobot.Net.Repositories
 
 		public TMDbMovieRepository(TMDbClient tmdbClient, IMapper mapper)
 		{
+			if(tmdbClient == null)
+			{
+				throw new ArgumentNullException($"{nameof(tmdbClient)} cannot be null.");
+			}
+			
 			this.tmdbClient = tmdbClient;
 			this.mapper = mapper;
 
@@ -33,7 +39,7 @@ namespace Kinobot.Net.Repositories
 
 			var movie = mapper.Map<Movie>(result);
 
-			movie.ImageUrl = GetImageUrl(result.Images.Posters.First().FilePath); // TODO: Move into AutoMapper ValueResolver
+			movie.ImageUri = GetImageUrl(result.Images.Posters.First().FilePath); // TODO: Move into AutoMapper ValueResolver
 
 			return movie;
 		}
@@ -44,9 +50,9 @@ namespace Kinobot.Net.Repositories
 			return searchContainer.Results.Select(m => mapper.Map<Movie>(m));
 		}
 
-		public string GetImageUrl(string filePath, string size = "original")
+		public Uri GetImageUrl(string filePath, string size = "original")
 		{
-			return tmdbClient.GetImageUrl(size, filePath).ToString();
+			return tmdbClient.GetImageUrl(size, filePath);
 		}
 	}
 }

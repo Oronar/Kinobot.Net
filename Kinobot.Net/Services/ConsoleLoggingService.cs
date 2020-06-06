@@ -14,6 +14,11 @@ namespace Kinobot.Net.Services
 
 		public ConsoleLoggingService(DiscordSocketClient socketClient, CommandService commandService)
 		{
+			if (socketClient == null || commandService == null)
+			{
+				throw new ArgumentNullException($"{nameof(socketClient)} and {nameof(commandService)} cannot be null");
+			}
+
 			SocketClient = socketClient;
 			CommandService = commandService;
 

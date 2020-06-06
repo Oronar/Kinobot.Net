@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Kinobot.Net.Services.Contracts;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace Kinobot.Net.Modules
 					.WithTitle(movie.Title)
 					.WithDescription(movie.Description)
 					.WithFooter("Data via https://www.themoviedb.org")
-					.WithImageUrl(movie.ImageUrl)
+					.WithImageUrl(movie.ImageUri.ToString())
 					.AddField("Release Date", movie.ReleaseDate)
 					.AddField("Genres", string.Join(", ", movie.Genres))
 					.AddField("Runtime", movie.RunTime)
@@ -39,7 +40,7 @@ namespace Kinobot.Net.Modules
 
 				await ReplyAsync(embed: embed);
 			}
-			catch (Exception e)
+			catch (KeyNotFoundException e)
 			{
 				await loggingService.LogAsync(e.ToString());
 				await ReplyAsync($"Movie not found: {e.Message}");
@@ -62,7 +63,7 @@ namespace Kinobot.Net.Modules
 
 				await ReplyAsync(response.ToString());
 			}
-			catch (Exception e)
+			catch (KeyNotFoundException e)
 			{
 				await loggingService.LogAsync(e.ToString());
 				await ReplyAsync($"Move not found: {e.Message}");

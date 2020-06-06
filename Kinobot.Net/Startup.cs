@@ -17,7 +17,7 @@ namespace Kinobot.Net
 {
 	public class Startup
 	{
-		public IConfiguration Configuration;
+		private readonly IConfiguration Configuration;
 
 		public Startup()
 		{
