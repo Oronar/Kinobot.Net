@@ -11,5 +11,7 @@ namespace Kinobot.Net.Models
 		public string ImageUrl { get; set; }
 		public DateTime ReleaseDate { get; set; }
 		public IEnumerable<string> Genres { get; set; }
+		public TimeSpan RunTime { get; set; }
+		public double Rating { get; set; }
 	}
 }

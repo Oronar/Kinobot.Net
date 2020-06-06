@@ -33,6 +33,8 @@ namespace Kinobot.Net.Modules
 					.WithImageUrl(movie.ImageUrl)
 					.AddField("Release Date", movie.ReleaseDate)
 					.AddField("Genres", string.Join(", ", movie.Genres))
+					.AddField("Runtime", movie.RunTime)
+					.AddField("Rating", movie.Rating)
 					.Build();
 
 				await ReplyAsync(embed: embed);
