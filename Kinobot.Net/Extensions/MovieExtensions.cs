@@ -29,7 +29,6 @@ namespace Kinobot.Net.Extensions
 				.AddField("Genres", string.Join(", ", movie.Genres))
 				.AddField("Budget", movie.Budget.ToString("C0", CultureInfo.GetCultureInfo("en-US")), inline: true)
 				.AddField("Revenue", movie.Revenue.ToString("C0", CultureInfo.GetCultureInfo("en-US")), inline: true)
-				.AddField(ZeroLengthSpace, "Crew")
 				.AddField("Director", string.Join(", ", movie.Directors.Take(DisplayLimit)), inline: true)
 				.AddField("Screenplay", string.Join(", ", movie.ScreenplayWriters.Take(DisplayLimit)), inline: true)
 				.AddField(ZeroLengthSpace, "Cast");
