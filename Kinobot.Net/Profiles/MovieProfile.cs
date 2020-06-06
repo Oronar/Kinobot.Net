@@ -13,6 +13,7 @@ namespace Kinobot.Net.Profiles
 		public MovieProfile()
 		{
 			CreateMap<TMDbLib.Objects.Movies.Movie, Movie>()
+				.ForMember(dest => dest.TmdbId, opt => opt.MapFrom(src => src.Id))
 				.ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Overview))
 				.ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.Genres.Select(genre => genre.Name)))
 				.ForMember(dest => dest.RunTime, opt => opt.MapFrom(src => TimeSpan.FromMinutes((double)src.Runtime)))

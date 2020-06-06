@@ -38,6 +38,18 @@ namespace Kinobot.Net.Repositories
 			return movie;
 		}
 
+		public async Task<Movie> GetAsync(string name)
+		{
+			var searchContainer = await tmdbClient.SearchMovieAsync(name);
+
+			if (!searchContainer.Results.Any())
+			{
+				throw new KeyNotFoundException($"No results for '{name}'");
+			}
+
+			return await GetAsync(searchContainer.Results.First().Id);
+		}
+
 		public async Task<IEnumerable<Movie>> SearchAsync(string query, int page = 0)
 		{
 			var searchContainer = await tmdbClient.SearchMovieAsync(query, page);
