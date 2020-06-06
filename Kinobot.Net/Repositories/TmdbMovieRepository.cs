@@ -24,7 +24,7 @@ namespace Kinobot.Net.Repositories
 
 		public async Task<Movie> GetAsync(int id)
 		{
-			var result = await tmdbClient.GetMovieAsync(id, MovieMethods.Images);
+			var result = await tmdbClient.GetMovieAsync(id, MovieMethods.Images | MovieMethods.Credits);
 
 			if (result == null)
 			{
