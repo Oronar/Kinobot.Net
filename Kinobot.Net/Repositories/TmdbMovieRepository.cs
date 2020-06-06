@@ -17,14 +17,8 @@ namespace Kinobot.Net.Repositories
 
 		public TMDbMovieRepository(TMDbClient tmdbClient, IMapper mapper)
 		{
-			if(tmdbClient == null)
-			{
-				throw new ArgumentNullException($"{nameof(tmdbClient)} cannot be null.");
-			}
-			
-			this.tmdbClient = tmdbClient;
+			this.tmdbClient = tmdbClient ?? throw new ArgumentNullException($"{nameof(tmdbClient)} cannot be null.");
 			this.mapper = mapper;
-
 			this.tmdbClient.GetConfigAsync();
 		}
 

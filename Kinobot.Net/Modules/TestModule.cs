@@ -9,7 +9,7 @@ namespace Kinobot.Net.Modules
 		[Summary("Test command")]
 		public async Task TestAsync()
 		{
-			await ReplyAsync("Test successful, bot is functioning.");
+			await ReplyAsync(Properties.Resources.testResponse);
 		}
 	}
 }

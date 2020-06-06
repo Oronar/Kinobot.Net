@@ -4,7 +4,7 @@ namespace Kinobot.Net
 {
 	public static class Program
 	{
-		public async static Task Main(string[] args)
+		public async static Task Main()
 		{
 			await new Startup().RunAsync();
 		}

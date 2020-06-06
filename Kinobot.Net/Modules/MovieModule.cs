@@ -30,7 +30,7 @@ namespace Kinobot.Net.Modules
 				var embed = new EmbedBuilder()
 					.WithTitle(movie.Title)
 					.WithDescription(movie.Description)
-					.WithFooter("Data via https://www.themoviedb.org")
+					.WithFooter(Properties.Resources.tmdbDisclaimer)
 					.WithImageUrl(movie.ImageUri.ToString())
 					.AddField("Release Date", movie.ReleaseDate)
 					.AddField("Genres", string.Join(", ", movie.Genres))
