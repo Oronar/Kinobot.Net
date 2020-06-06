@@ -1,9 +1,8 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
+using Kinobot.Net.Extensions;
 using Kinobot.Net.Services.Contracts;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,30 +27,7 @@ namespace Kinobot.Net.Modules
 			try
 			{
 				var movie = await movieService.GetAsync(id);
-				var embedBuilder = new EmbedBuilder()
-					.WithTitle(movie.Title)
-					.WithDescription(movie.Description)
-					.WithFooter(Properties.Resources.tmdbDisclaimer)
-					.WithThumbnailUrl(movie.ImageUri.ToString())
-					.AddField("Release Date", movie.ReleaseDate.ToString("MMMM d, yyyy", CultureInfo.GetCultureInfo("en-US")), inline: true)
-					.AddField("Runtime", $"{movie.RunTime:%h}h {movie.RunTime:mm}m", inline: true)
-					.AddField("Rating", movie.Rating, inline: true)
-					.AddField("Genres", string.Join(", ", movie.Genres))
-					.AddField("Budget", movie.Budget.ToString("C0", CultureInfo.GetCultureInfo("en-US")), inline: true)
-					.AddField("Revenue", movie.Revenue.ToString("C0", CultureInfo.GetCultureInfo("en-US")), inline: true)
-					.AddField("\u200b", "Crew")
-					.AddField("Director", string.Join(", ", movie.Directors.Take(3)), inline: true)
-					.AddField("Screenplay", string.Join(", ", movie.ScreenplayWriters.Take(3)), inline: true)
-					.AddField("\u200b", "Cast");
-
-				foreach (var cast in movie.Cast.Take(3))
-				{
-					embedBuilder.AddField(cast.Role, cast.Name, inline: true);
-				}
-
-				embedBuilder.AddField("Links", $"[IMDB]({movie.ImdbUri.ToString()}) [TMDB]({movie.TmdbUri.ToString()})");
-
-				await ReplyAsync(embed: embedBuilder.Build());
+				await ReplyAsync(embed: movie.BuildDiscordEmbed());
 			}
 			catch (KeyNotFoundException e)
 			{
