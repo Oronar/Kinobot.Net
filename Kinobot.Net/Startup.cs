@@ -2,12 +2,14 @@
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Kinobot.Net.Configuration;
 using Kinobot.Net.Repositories;
 using Kinobot.Net.Repositories.Contracts;
 using Kinobot.Net.Services;
 using Kinobot.Net.Services.Contracts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -25,6 +27,11 @@ namespace Kinobot.Net
 				.SetBasePath(Directory.GetCurrentDirectory())
 				.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 				.AddEnvironmentVariables();
+
+			if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development", StringComparison.OrdinalIgnoreCase))
+			{
+				builder.AddUserSecrets<SecretsConfiguration>();
+			}
 
 			Configuration = builder.Build();
 		}
