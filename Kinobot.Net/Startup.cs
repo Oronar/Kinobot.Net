@@ -28,7 +28,7 @@ namespace Kinobot.Net
 				.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 				.AddEnvironmentVariables();
 
-			if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development", StringComparison.OrdinalIgnoreCase))
+			if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.Equals("Development", StringComparison.OrdinalIgnoreCase) ?? false)
 			{
 				builder.AddUserSecrets<SecretsConfiguration>();
 			}
