@@ -16,10 +16,9 @@ namespace Kinobot.Net.Models
 		public IEnumerable<string> Genres { get; set; }
 		public TimeSpan RunTime { get; set; }
 		public double Rating { get; set; }
-		public IEnumerable<string> Directors { get; set; }
-		public IEnumerable<string> ScreenplayWriters { get; set; }
 		public decimal Budget { get; set; }
 		public decimal Revenue { get; set; }
-		public IEnumerable<CastMember> Cast { get; set; }
+		public IEnumerable<Credit> Crew { get; set; }
+		public IEnumerable<Credit> Cast { get; set; }
 	}
 }
