@@ -26,11 +26,11 @@ namespace Kinobot.Net.Extensions
 				.AddField("Release Date", movie.ReleaseDate.ToString("MMMM d, yyyy", CultureInfo.GetCultureInfo("en-US")), inline: true)
 				.AddField("Runtime", $"{movie.RunTime:%h}h {movie.RunTime:mm}m", inline: true)
 				.AddField("Rating", movie.Rating, inline: true)
-				.AddField("Genres", string.Join(", ", movie.Genres))
 				.AddField("Budget", movie.Budget.ToString("C0", CultureInfo.GetCultureInfo("en-US")), inline: true)
 				.AddField("Revenue", movie.Revenue.ToString("C0", CultureInfo.GetCultureInfo("en-US")), inline: true)
-				.AddField("Director", string.Join(", ", movie.Directors.Take(DisplayLimit)), inline: true)
-				.AddField("Screenplay", string.Join(", ", movie.ScreenplayWriters.Take(DisplayLimit)), inline: true)
+				.AddField("Genres", string.Join(", ", movie.Genres))
+				.AddField("Director", string.Join(", ", movie.Crew.GetDirectors().Take(DisplayLimit).Select(credit => credit.Name)), inline: true)
+				.AddField("Screenplay", string.Join(", ", movie.Crew.GetWriters().Take(DisplayLimit).Select(credit => credit.Name)), inline: true)
 				.AddField(ZeroLengthSpace, "Cast");
 
 			foreach (var cast in movie.Cast.Take(DisplayLimit))
