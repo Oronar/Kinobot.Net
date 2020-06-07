@@ -19,5 +19,6 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: oronar/kinobot
+        tags: latest
         tag_with_sha: true
 
