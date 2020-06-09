@@ -18,6 +18,9 @@ namespace Kinobot.Net.Extensions
 				throw new ArgumentNullException($"{nameof(movie)} cannot be null.");
 			}
 
+			var directors = movie.Crew.GetDirectors().Take(DisplayLimit);
+			var writers = movie.Crew.GetWriters().Take(DisplayLimit);
+
 			var embedBuilder = new EmbedBuilder()
 				.WithTitle(movie.Title)
 				.WithDescription(movie.Description)
@@ -27,19 +30,22 @@ namespace Kinobot.Net.Extensions
 				.AddField("Rating", movie.Rating, inline: true)
 				.AddField("Budget", movie.Budget.ToString("C0", CultureInfo.GetCultureInfo("en-US")), inline: true)
 				.AddField("Revenue", movie.Revenue.ToString("C0", CultureInfo.GetCultureInfo("en-US")), inline: true)
-				.AddField("Genres", string.Join(", ", movie.Genres))
-				.AddField("Director", string.Join(", ", movie.Crew.GetDirectors().Take(DisplayLimit).Select(credit => credit.Name)), inline: true)
-				.AddField("Screenplay", string.Join(", ", movie.Crew.GetWriters().Take(DisplayLimit).Select(credit => credit.Name)), inline: true)
-				.AddField(ZeroLengthSpace, "Cast");
+				.AddField("Genres", movie.Genres.Any() ? string.Join(", ", movie.Genres) : "N/A")
+				.AddField("Director", directors.Any() ? string.Join(", ", directors.Select(credit => credit.Name)) : "N/A", inline: true)
+				.AddField("Screenplay", writers.Any() ? string.Join(", ", writers.Select(credit => credit.Name)) : "N/A", inline: true);
 
 			if (movie.ImageUri != null)
 			{
 				embedBuilder.WithThumbnailUrl(movie.ImageUri.ToString());
 			}
 
-			foreach (var cast in movie.Cast.Take(DisplayLimit))
+			if (movie.Cast.Any())
 			{
-				embedBuilder.AddField(cast.Role, cast.Name, inline: true);
+				embedBuilder.AddField(ZeroLengthSpace, "Cast");
+				foreach (var cast in movie.Cast.Take(DisplayLimit))
+				{
+					embedBuilder.AddField(cast.Role, cast.Name, inline: true);
+				}
 			}
 
 			embedBuilder.AddField("Links", $"[IMDB]({movie.ImdbUri.ToString()}) [TMDB]({movie.TmdbUri.ToString()})");
