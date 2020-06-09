@@ -33,7 +33,10 @@ namespace Kinobot.Net.Repositories
 
 			var movie = mapper.Map<Movie>(result);
 
-			movie.ImageUri = GetImageUrl(result.Images.Posters.First().FilePath); // TODO: Move into AutoMapper ValueResolver
+			if (result.Images.Posters.Any())
+			{
+				movie.ImageUri = GetImageUrl(result.Images.Posters.First().FilePath); // TODO: Move into AutoMapper ValueResolver
+			}
 
 			return movie;
 		}

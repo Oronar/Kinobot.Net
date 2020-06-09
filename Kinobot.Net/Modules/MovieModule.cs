@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 namespace Kinobot.Net.Modules
 {
 	[Group("movie")]
-	public class MovieModule : ModuleBase<SocketCommandContext>
+	public class MovieModule : BaseModule
 	{
-		private readonly ILoggingService loggingService;
 		private readonly IMovieService movieService;
 
-		public MovieModule(ILoggingService loggingService, IMovieService movieService)
+		public MovieModule(ILoggingService loggingService, IMovieService movieService) : base(loggingService)
 		{
-			this.loggingService = loggingService;
 			this.movieService = movieService;
 		}
 
@@ -22,32 +20,38 @@ namespace Kinobot.Net.Modules
 		[Summary("Retrieve movie by TMDB ID")]
 		public async Task GetMovieAsync(int id)
 		{
-			try
+			await ExecuteAsync(async () =>
 			{
-				var movie = await movieService.GetAsync(id);
-				await ReplyAsync(embed: movie.BuildDiscordEmbed());
-			}
-			catch (KeyNotFoundException e)
-			{
-				await loggingService.LogAsync(e.ToString());
-				await ReplyAsync($"Movie not found: {e.Message}");
-			}
+				try
+				{
+					var movie = await movieService.GetAsync(id);
+					await ReplyAsync(embed: movie.BuildDiscordEmbed());
+				}
+				catch (KeyNotFoundException e)
+				{
+					await loggingService.LogAsync(e.ToString());
+					await ReplyAsync($"Movie not found: {e.Message}");
+				}
+			});
 		}
 
 		[Command]
 		[Summary("Search for a movie by title.")]
 		public async Task SearchMovieAsync(params string[] query)
 		{
-			try
+			await ExecuteAsync(async () =>
 			{
-				var movie = await movieService.SearchAsync(string.Join(" ", query));
-				await ReplyAsync(embed: movie.BuildDiscordEmbed());
-			}
-			catch (KeyNotFoundException e)
-			{
-				await loggingService.LogAsync(e.ToString());
-				await ReplyAsync($"Move not found: {e.Message}");
-			}
+				try
+				{
+					var movie = await movieService.SearchAsync(string.Join(" ", query));
+					await ReplyAsync(embed: movie.BuildDiscordEmbed());
+				}
+				catch (KeyNotFoundException e)
+				{
+					await loggingService.LogAsync(e.ToString());
+					await ReplyAsync($"Move not found.");
+				}
+			});
 		}
 	}
 }
