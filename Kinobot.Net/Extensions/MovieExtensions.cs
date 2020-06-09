@@ -22,7 +22,6 @@ namespace Kinobot.Net.Extensions
 				.WithTitle(movie.Title)
 				.WithDescription(movie.Description)
 				.WithFooter(Properties.Resources.tmdbDisclaimer)
-				.WithThumbnailUrl(movie.ImageUri.ToString())
 				.AddField("Release Date", movie.ReleaseDate.ToString("MMMM d, yyyy", CultureInfo.GetCultureInfo("en-US")), inline: true)
 				.AddField("Runtime", $"{movie.RunTime:%h}h {movie.RunTime:mm}m", inline: true)
 				.AddField("Rating", movie.Rating, inline: true)
@@ -32,6 +31,11 @@ namespace Kinobot.Net.Extensions
 				.AddField("Director", string.Join(", ", movie.Crew.GetDirectors().Take(DisplayLimit).Select(credit => credit.Name)), inline: true)
 				.AddField("Screenplay", string.Join(", ", movie.Crew.GetWriters().Take(DisplayLimit).Select(credit => credit.Name)), inline: true)
 				.AddField(ZeroLengthSpace, "Cast");
+
+			if (movie.ImageUri != null)
+			{
+				embedBuilder.WithThumbnailUrl(movie.ImageUri.ToString());
+			}
 
 			foreach (var cast in movie.Cast.Take(DisplayLimit))
 			{
