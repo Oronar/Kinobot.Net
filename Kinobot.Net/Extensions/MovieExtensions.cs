@@ -15,7 +15,7 @@ namespace Kinobot.Net.Extensions
 		{
 			if (movie == null)
 			{
-				throw new ArgumentNullException($"{nameof(movie)} cannot be null.");
+				throw new ArgumentNullException($"{nameof(movie)}");
 			}
 
 			var directors = movie.Crew.GetDirectors().Take(DisplayLimit);
