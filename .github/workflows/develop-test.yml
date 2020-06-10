@@ -8,12 +8,14 @@ on:
 
 jobs:
   test:
+	runs-on: ubuntu-latest
+
     steps:
         - uses: actions/checkout@master
 
         - uses: actions/setup-dotnet@v1
           with:
-            dotnet-version: '3.1.x' # SDK Version to use; x will use the latest version of the 3.1 channel
+            dotnet-version: '3.1.x'
 
         - name: Build with dotnet
           run: dotnet build --configuration Release
