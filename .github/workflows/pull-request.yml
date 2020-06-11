@@ -1,13 +1,11 @@
-name: Build and test
+name: Build and test pull request
 
 on:
-  push:
-    branches: ["develop"]
   pull_request: 
-    branches: ["develop", "master"]
 
 jobs:
   test:
+    name: Test pull request
     runs-on: ubuntu-latest
 
     steps:
