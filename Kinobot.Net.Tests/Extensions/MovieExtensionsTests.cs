@@ -2,6 +2,7 @@
 using Kinobot.Net.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Xunit;
 
@@ -96,7 +97,7 @@ namespace Kinobot.Net.Tests.Extensions
 
 			var embed = movie.BuildDiscordEmbed();
 
-			Assert.Equal(movie.Budget.ToString("C0"), embed.Fields.First(f => f.Name.Equals("Budget")).Value);
+			Assert.Equal(movie.Budget.ToString("C0", CultureInfo.GetCultureInfo("en-US")), embed.Fields.First(f => f.Name.Equals("Budget")).Value);
 		}
 
 		[Fact]
@@ -106,7 +107,7 @@ namespace Kinobot.Net.Tests.Extensions
 
 			var embed = movie.BuildDiscordEmbed();
 
-			Assert.Equal(movie.Revenue.ToString("C0"), embed.Fields.First(f => f.Name.Equals("Revenue")).Value);
+			Assert.Equal(movie.Revenue.ToString("C0", CultureInfo.GetCultureInfo("en-US")), embed.Fields.First(f => f.Name.Equals("Revenue")).Value);
 		}
 
 		[Fact]
