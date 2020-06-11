@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Kinobot.Net.Modules
 {
-	public class BaseModule : ModuleBase<SocketCommandContext>
+	public abstract class BaseModule : ModuleBase<SocketCommandContext>
 	{
-		protected readonly ILoggingService loggingService;
+		internal readonly ILoggingService loggingService;
 
 		public BaseModule(ILoggingService loggingService)
 		{

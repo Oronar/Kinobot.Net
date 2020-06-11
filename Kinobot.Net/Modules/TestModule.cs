@@ -16,7 +16,7 @@ namespace Kinobot.Net.Modules
 		{
 			await ExecuteAsync(async () =>
 			{
-				await ReplyAsync(Properties.Resources.testResponse);
+				await ReplyAsync("Test successful, bot is functioning.");
 			});
 		}
 	}

@@ -2,3 +2,9 @@
 
 # CA2007: Consider calling ConfigureAwait on the awaited task
 dotnet_diagnostic.CA2007.severity = none
+
+# CA1303: Do not pass literals as localized parameters
+dotnet_diagnostic.CA1303.severity = none
+
+# CA1724: The type name Credit conflicts in whole or in part with the namespace name 'TMDbLib.Objects.Credit'. Change either name to eliminate the conflict.
+dotnet_diagnostic.CA1724.severity = none
