@@ -1,4 +1,4 @@
-name: Run develop tests
+name: Build and test
 
 on:
   push:
