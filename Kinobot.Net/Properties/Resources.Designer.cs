@@ -61,15 +61,6 @@ namespace Kinobot.Net.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Test successful, bot is functioning..
-        /// </summary>
-        internal static string testResponse {
-            get {
-                return ResourceManager.GetString("testResponse", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Data via https://www.themoviedb.org.
         /// </summary>
         internal static string tmdbDisclaimer {
