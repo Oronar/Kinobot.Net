@@ -19,9 +19,9 @@ namespace Kinobot.Net.Services
 			return await movieRepository.GetAsync(id);
 		}
 
-		public async Task<Movie> SearchAsync(string query)
+		public async Task<Movie> GetAsync(string title)
 		{
-			return await movieRepository.GetAsync(query);
+			return await movieRepository.GetAsync(title);
 		}
 	}
 }

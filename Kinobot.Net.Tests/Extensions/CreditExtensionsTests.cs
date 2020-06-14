@@ -58,7 +58,7 @@ namespace Kinobot.Net.Tests.Extensions
 		}
 
 		[Fact]
-		public void GetWriters_WithScreenplay_ReturnsWriterS()
+		public void GetWriters_WithScreenplay_ReturnsWriters()
 		{
 			var credits = new List<Credit>() { new Credit() { Role = "Screenplay" } };
 
@@ -73,6 +73,26 @@ namespace Kinobot.Net.Tests.Extensions
 			var credits = new List<Credit>() { new Credit() { Role = "NoMatch" } };
 
 			var result = credits.GetWriters();
+
+			Assert.Empty(result);
+		}
+
+		[Fact]
+		public void GetCreators_WithCreator_ReturnsCreators()
+		{
+			var credits = new List<Credit>() { new Credit() { Role = "Producer" } };
+
+			var result = credits.GetProducers();
+
+			Assert.Single(result);
+		}
+
+		[Fact]
+		public void GetCreators_WithNoCreators_ReturnsEmpty()
+		{
+			var credits = new List<Credit>() { new Credit() { Role = "NoMatch" } };
+
+			var result = credits.GetProducers();
 
 			Assert.Empty(result);
 		}

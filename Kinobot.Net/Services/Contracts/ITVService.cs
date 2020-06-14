@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 
 namespace Kinobot.Net.Services.Contracts
 {
-	public interface IMovieService
+	public interface ITVService
 	{
-		Task<Movie> GetAsync(int id);
+		Task<TVShow> GetAsync(int id);
 
-		Task<Movie> GetAsync(string query);
+		Task<TVShow> GetAsync(string query);
 	}
 }
