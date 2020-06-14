@@ -35,7 +35,7 @@ namespace Kinobot.Net.Repositories
 
 			if (result.Images.Posters.Any())
 			{
-				movie.ImageUri = GetImageUrl(result.Images.Posters.First().FilePath); // TODO: Move into AutoMapper ValueResolver
+				movie.ImageUri = tmdbClient.GetImageUrl("original", result.Images.Posters.First().FilePath); // TODO: Move into AutoMapper ValueResolver
 			}
 
 			return movie;
@@ -57,11 +57,6 @@ namespace Kinobot.Net.Repositories
 		{
 			var searchContainer = await tmdbClient.SearchMovieAsync(query, page);
 			return searchContainer.Results.Select(m => mapper.Map<Movie>(m));
-		}
-
-		public Uri GetImageUrl(string filePath, string size = "original")
-		{
-			return tmdbClient.GetImageUrl(size, filePath);
 		}
 	}
 }

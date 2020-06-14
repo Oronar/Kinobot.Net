@@ -33,7 +33,10 @@ namespace Kinobot.Net.Repositories
 
 			var tvShow = mapper.Map<TVShow>(result);
 
-			// TODO: Add images
+			if (result.Images.Posters.Any())
+			{
+				tvShow.ImageUri = tmdbClient.GetImageUrl("original", result.Images.Posters.First().FilePath); // TODO: Move into AutoMapper ValueResolver
+			}
 
 			return tvShow;
 		}
