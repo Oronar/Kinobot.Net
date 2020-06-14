@@ -25,8 +25,10 @@ namespace Kinobot.Net.Extensions
 				.WithTitle(tvShow.Title)
 				.WithDescription(tvShow.Description)
 				.WithFooter(Properties.Resources.tmdbDisclaimer)
-				.AddField("Air Date", tvShow.FirstAirDate.ToString("MMMM d, yyyy", CultureInfo.GetCultureInfo("en-US")), inline: true)
+				.AddField("Air Date", tvShow.FirstAirDate.ToString("MMMM d, yyyy", CultureInfo.GetCultureInfo("en-US")))
 				.AddField("Rating", tvShow.Rating, inline: true)
+				.AddField("Seasons", tvShow.Seasons.Count(), inline: true)
+				.AddField("Episodes", tvShow.Seasons.Sum(s => s.EpisodeCount), inline: true)
 				.AddField("Genres", tvShow.Genres.Any() ? string.Join(", ", tvShow.Genres) : "N/A")
 				.AddField("Producers", producers.Any() ? string.Join(", ", producers.Take(ProducerDisplayLimit).Select(credit => credit.Name)) : "N/A", inline: true);
 
