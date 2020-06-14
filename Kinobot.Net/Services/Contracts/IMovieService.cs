@@ -7,6 +7,6 @@ namespace Kinobot.Net.Services.Contracts
 	{
 		Task<Movie> GetAsync(int id);
 
-		Task<Movie> SearchAsync(string query);
+		Task<Movie> GetAsync(string query);
 	}
 }

@@ -36,14 +36,14 @@ namespace Kinobot.Net.Modules
 		}
 
 		[Command]
-		[Summary("Search for a movie by title.")]
-		public async Task SearchMovieAsync(params string[] query)
+		[Summary("Retrieve a movie by title.")]
+		public async Task GetMovieAsync(params string[] title)
 		{
 			await ExecuteAsync(async () =>
 			{
 				try
 				{
-					var movie = await movieService.SearchAsync(string.Join(" ", query));
+					var movie = await movieService.GetAsync(string.Join(" ", title));
 					await ReplyAsync(embed: movie.BuildDiscordEmbed());
 				}
 				catch (KeyNotFoundException e)
