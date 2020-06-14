@@ -80,7 +80,7 @@ namespace Kinobot.Net.Tests.Extensions
 		[Fact]
 		public void GetCreators_WithCreator_ReturnsCreators()
 		{
-			var credits = new List<Credit>() { new Credit() { Role = "Creator" } };
+			var credits = new List<Credit>() { new Credit() { Role = "Producer" } };
 
 			var result = credits.GetProducers();
 
