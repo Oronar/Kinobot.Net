@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Kinobot.Net.Models;
 using Kinobot.Net.Profiles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMDbLib.Objects.General;
@@ -33,6 +34,16 @@ namespace Kinobot.Net.Tests.Profiles
 		}
 
 		[Fact]
+		public void CreateMap_Movie_Movie_TitleIsMapped()
+		{
+			var source = BuildSourceMovie();
+
+			var result = mapper.Map<Movie>(source);
+
+			Assert.Equal(source.Title, result.Title);
+		}
+
+		[Fact]
 		public void CreateMap_Movie_Movie_DescriptionIsMapped()
 		{
 			var source = BuildSourceMovie();
@@ -40,6 +51,36 @@ namespace Kinobot.Net.Tests.Profiles
 			var result = mapper.Map<Movie>(source);
 
 			Assert.Equal(source.Overview, result.Description);
+		}
+
+		[Fact]
+		public void CreateMap_Movie_Movie_ImdbUriMapped()
+		{
+			var source = BuildSourceMovie();
+
+			var result = mapper.Map<Movie>(source);
+
+			Assert.Equal($"https://www.imdb.com/title/{source.ImdbId}", result.ImdbUri.ToString());
+		}
+
+		[Fact]
+		public void CreateMap_Movie_Movie_TmdbUriMapped()
+		{
+			var source = BuildSourceMovie();
+
+			var result = mapper.Map<Movie>(source);
+
+			Assert.Equal($"https://www.themoviedb.org/movie/{source.Id}", result.TmdbUri.ToString());
+		}
+
+		[Fact]
+		public void CreateMap_Movie_Movie_ReleaseDateIsMapped()
+		{
+			var source = BuildSourceMovie();
+
+			var result = mapper.Map<Movie>(source);
+
+			Assert.Equal(source.ReleaseDate, result.ReleaseDate);
 		}
 
 		[Fact]
@@ -73,7 +114,37 @@ namespace Kinobot.Net.Tests.Profiles
 		}
 
 		[Fact]
+		public void CreateMap_Movie_Movie_BudgetIsMapped()
+		{
+			var source = BuildSourceMovie();
+
+			var result = mapper.Map<Movie>(source);
+
+			Assert.Equal(source.Budget, result.Budget);
+		}
+
+		[Fact]
+		public void CreateMap_Movie_Movie_RevenueIsMapped()
+		{
+			var source = BuildSourceMovie();
+
+			var result = mapper.Map<Movie>(source);
+
+			Assert.Equal(source.Revenue, result.Revenue);
+		}
+
+		[Fact]
 		public void CreateMap_Movie_Movie_CrewIsMapped()
+		{
+			var source = BuildSourceMovie();
+
+			var result = mapper.Map<Movie>(source);
+
+			Assert.Equal(source.Credits.Crew.Count(), result.Crew.Count());
+		}
+
+		[Fact]
+		public void CreateMap_Movie_Movie_FirstCrewIsMapped()
 		{
 			var source = BuildSourceMovie();
 
@@ -83,7 +154,7 @@ namespace Kinobot.Net.Tests.Profiles
 		}
 
 		[Fact]
-		public void CreateMap_Movie_Movie_CastIsMapped()
+		public void CreateMap_Movie_Movie_FirstCastIsMapped()
 		{
 			var source = BuildSourceMovie();
 
@@ -92,11 +163,23 @@ namespace Kinobot.Net.Tests.Profiles
 			Assert.Equal(source.Credits.Cast.First().Name, result.Cast.First().Name);
 		}
 
+		[Fact]
+		public void CreateMap_Movie_Movie_CastIsMapped()
+		{
+			var source = BuildSourceMovie();
+
+			var result = mapper.Map<Movie>(source);
+
+			Assert.Equal(source.Credits.Cast.Count(), result.Cast.Count());
+		}
+
 		private TMDbLib.Objects.Movies.Movie BuildSourceMovie()
 		{
 			return new TMDbLib.Objects.Movies.Movie()
 			{
 				Id = 1,
+				ImdbId = "tt0000000",
+				Title = "title",
 				Overview = "overview",
 				Genres = new List<Genre>()
 				{
@@ -107,6 +190,7 @@ namespace Kinobot.Net.Tests.Profiles
 				},
 				Runtime = 1,
 				VoteAverage = 5,
+				ReleaseDate = DateTime.UtcNow,
 				Credits = new TMDbLib.Objects.Movies.Credits()
 				{
 					Cast = new List<TMDbLib.Objects.Movies.Cast>

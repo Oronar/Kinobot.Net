@@ -2,7 +2,6 @@
 using Kinobot.Net.Repositories.Contracts;
 using Kinobot.Net.Services;
 using Moq;
-using System.Collections.Generic;
 using Xunit;
 
 namespace Kinobot.Net.Tests.Services
@@ -10,7 +9,7 @@ namespace Kinobot.Net.Tests.Services
 	public class MovieServiceTests
 	{
 		[Fact]
-		public void GetAsync_ReturnsMovie()
+		public void GetAsync_WithId_ReturnsMovie()
 		{
 			var mockMovieRepository = new Mock<IMovieRepository>();
 			mockMovieRepository.Setup(m => m.GetAsync(It.IsAny<int>()))
@@ -23,14 +22,14 @@ namespace Kinobot.Net.Tests.Services
 		}
 
 		[Fact]
-		public void SearchAsynnc_ReturnsMovie()
+		public void GetAsync_WithTitle_ReturnsMovie()
 		{
 			var mockMovieRepository = new Mock<IMovieRepository>();
-			mockMovieRepository.Setup(m => m.SearchAsync(It.IsAny<string>(), It.IsAny<int>()))
-				.ReturnsAsync(new List<Movie>() { new Movie() });
+			mockMovieRepository.Setup(m => m.GetAsync(It.IsAny<string>()))
+				.ReturnsAsync(new Movie());
 			var movieService = new MovieService(mockMovieRepository.Object);
 
-			var result = movieService.SearchAsync("title");
+			var result = movieService.GetAsync("title");
 
 			Assert.NotNull(result);
 		}

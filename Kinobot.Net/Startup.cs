@@ -74,7 +74,9 @@ namespace Kinobot.Net
 			services.AddSingleton(new TMDbClient(Configuration.GetSection("TMDbApiKey").Value));
 
 			services.AddScoped<IMovieRepository, TMDbMovieRepository>();
+			services.AddTransient<ITVRepository, TMDbTVRepository>();
 			services.AddTransient<IMovieService, MovieService>();
+			services.AddTransient<ITVService, TVService>();
 		}
 	}
 }

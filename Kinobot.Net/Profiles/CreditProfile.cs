@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Kinobot.Net.Models;
 using TMDbLib.Objects.General;
-using TMDbLib.Objects.Movies;
 
 namespace Kinobot.Net.Profiles
 {
@@ -9,11 +8,17 @@ namespace Kinobot.Net.Profiles
 	{
 		public CreditProfile()
 		{
-			CreateMap<Cast, Credit>()
+			CreateMap<TMDbLib.Objects.Movies.Cast, Credit>()
+				.ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Character));
+
+			CreateMap<TMDbLib.Objects.TvShows.Cast, Credit>()
 				.ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Character));
 
 			CreateMap<Crew, Credit>()
 				.ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Job));
+
+			CreateMap<TMDbLib.Objects.TvShows.CreatedBy, Credit>()
+				.ForMember(dest => dest.Role, opt => opt.MapFrom(src => "Creator"));
 		}
 	}
 }
