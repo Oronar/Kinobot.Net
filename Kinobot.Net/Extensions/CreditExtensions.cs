@@ -17,9 +17,9 @@ namespace Kinobot.Net.Extensions
 			return credits.GetRoles(new List<string>() { "Writer", "Screenplay" });
 		}
 
-		public static IEnumerable<Credit> GetCreators(this IEnumerable<Credit> credits)
+		public static IEnumerable<Credit> GetProducers(this IEnumerable<Credit> credits)
 		{
-			return credits.GetRoles(new List<string>() { "Creator" });
+			return credits.GetRoles(new List<string>() { "Producer" });
 		}
 
 		public static IEnumerable<Credit> GetRoles(this IEnumerable<Credit> credits, IEnumerable<string> roles)

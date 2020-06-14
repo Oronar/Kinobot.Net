@@ -82,7 +82,7 @@ namespace Kinobot.Net.Tests.Extensions
 		{
 			var credits = new List<Credit>() { new Credit() { Role = "Creator" } };
 
-			var result = credits.GetCreators();
+			var result = credits.GetProducers();
 
 			Assert.Single(result);
 		}
@@ -92,7 +92,7 @@ namespace Kinobot.Net.Tests.Extensions
 		{
 			var credits = new List<Credit>() { new Credit() { Role = "NoMatch" } };
 
-			var result = credits.GetCreators();
+			var result = credits.GetProducers();
 
 			Assert.Empty(result);
 		}

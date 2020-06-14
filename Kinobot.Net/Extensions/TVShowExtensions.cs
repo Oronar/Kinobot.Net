@@ -1,13 +1,16 @@
 ﻿using Discord;
 using Kinobot.Net.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Globalization;
+using System.Linq;
 
 namespace Kinobot.Net.Extensions
 {
 	public static class TVShowExtensions
 	{
+		private const int DisplayLimit = 6;
+		private const string ZeroLengthSpace = "\u200b";
+
 		public static Embed BuildDiscordEmbed(this TVShow tvShow)
 		{
 			if (tvShow == null)
@@ -15,10 +18,39 @@ namespace Kinobot.Net.Extensions
 				throw new ArgumentNullException($"{nameof(tvShow)}");
 			}
 
-			var builder = new EmbedBuilder()
-				.WithTitle(tvShow.Title);
+			var producers = tvShow.Crew.GetProducers().Take(DisplayLimit);
 
-			return builder.Build();
+			var embedBuilder = new EmbedBuilder()
+				.WithTitle(tvShow.Title)
+				.WithDescription(tvShow.Description)
+				.WithFooter(Properties.Resources.tmdbDisclaimer)
+				.AddField("Air Date", tvShow.FirstAirDate.ToString("MMMM d, yyyy", CultureInfo.GetCultureInfo("en-US")), inline: true)
+				.AddField("Rating", tvShow.Rating, inline: true)
+				.AddField("Genres", tvShow.Genres.Any() ? string.Join(", ", tvShow.Genres) : "N/A")
+				.AddField("Producers", producers.Any() ? string.Join(", ", producers.Select(credit => credit.Name)) : "N/A", inline: true);
+
+			if (tvShow.Creators.Any())
+			{
+				embedBuilder.AddField("Created By", tvShow.Creators.Any() ? string.Join(", ", tvShow.Creators.Select(credit => credit.Name)) : "N/A", inline: true);
+			}
+
+			if (tvShow.ImageUri != null)
+			{
+				embedBuilder.WithThumbnailUrl(tvShow.ImageUri.ToString());
+			}
+
+			if (tvShow.Cast.Any())
+			{
+				embedBuilder.AddField(ZeroLengthSpace, "Cast");
+				foreach (var cast in tvShow.Cast.Take(DisplayLimit))
+				{
+					embedBuilder.AddField(cast.Role, cast.Name, inline: true);
+				}
+			}
+
+			embedBuilder.AddField("Links", $"[IMDB]({tvShow.ImdbUri.ToString()}) [TMDB]({tvShow.TmdbUri.ToString()})");
+
+			return embedBuilder.Build();
 		}
 	}
 }
