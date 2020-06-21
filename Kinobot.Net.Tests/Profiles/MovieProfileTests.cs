@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMDbLib.Objects.General;
+using TMDbLib.Objects.Search;
 using Xunit;
 
 namespace Kinobot.Net.Tests.Profiles
@@ -22,6 +23,8 @@ namespace Kinobot.Net.Tests.Profiles
 			});
 			mapper = mapperConfig.CreateMapper();
 		}
+
+		#region TMDB Movie to Movie
 
 		[Fact]
 		public void CreateMap_Movie_Movie_TmdbIdIsMapped()
@@ -173,6 +176,62 @@ namespace Kinobot.Net.Tests.Profiles
 			Assert.Equal(source.Credits.Cast.Count(), result.Cast.Count());
 		}
 
+		#endregion TMDB Movie to Movie
+
+		#region TMDB SearchMovie to Movie
+
+		[Fact]
+		public void CreateMap_SearchMovie_Movie_TmdbDbIdIsMapped()
+		{
+			var source = BuildSourceSearchMovie();
+
+			var result = mapper.Map<Movie>(source);
+
+			Assert.Equal(source.Id, result.TmdbId);
+		}
+
+		[Fact]
+		public void CreateMap_SearchMovie_Movie_TitleIsMapped()
+		{
+			var source = BuildSourceSearchMovie();
+
+			var result = mapper.Map<Movie>(source);
+
+			Assert.Equal(source.Title, result.Title);
+		}
+
+		[Fact]
+		public void CreateMap_SearchMovie_Movie_DescriptionIsMapped()
+		{
+			var source = BuildSourceSearchMovie();
+
+			var result = mapper.Map<Movie>(source);
+
+			Assert.Equal(source.Overview, result.Description);
+		}
+
+		[Fact]
+		public void CreateMap_SearchMovie_Movie_RatingIsMapped()
+		{
+			var source = BuildSourceSearchMovie();
+
+			var result = mapper.Map<Movie>(source);
+
+			Assert.Equal(source.VoteAverage, result.Rating);
+		}
+
+		[Fact]
+		public void CreateMap_SearchMovie_Movie_ReleaseDateIsMapped()
+		{
+			var source = BuildSourceSearchMovie();
+
+			var result = mapper.Map<Movie>(source);
+
+			Assert.Equal(source.ReleaseDate, result.ReleaseDate);
+		}
+
+		#endregion TMDB SearchMovie to Movie
+
 		private TMDbLib.Objects.Movies.Movie BuildSourceMovie()
 		{
 			return new TMDbLib.Objects.Movies.Movie()
@@ -209,6 +268,18 @@ namespace Kinobot.Net.Tests.Profiles
 						}
 					}
 				}
+			};
+		}
+
+		private SearchMovie BuildSourceSearchMovie()
+		{
+			return new SearchMovie()
+			{
+				Id = 1,
+				Title = "Test Movie",
+				Overview = "Test movie description.",
+				VoteAverage = 5,
+				ReleaseDate = DateTime.UtcNow
 			};
 		}
 	}

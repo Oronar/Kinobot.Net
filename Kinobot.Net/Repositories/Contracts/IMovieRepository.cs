@@ -1,5 +1,4 @@
 ﻿using Kinobot.Net.Models;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Kinobot.Net.Repositories.Contracts
@@ -10,6 +9,6 @@ namespace Kinobot.Net.Repositories.Contracts
 
 		Task<Movie> GetAsync(string name);
 
-		Task<IEnumerable<Movie>> SearchAsync(string query, int page = 0);
+		Task<SearchPage<Movie>> SearchAsync(string query, int page = 0);
 	}
 }
