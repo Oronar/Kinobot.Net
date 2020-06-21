@@ -19,7 +19,10 @@ namespace Kinobot.Net.Profiles
 				.ForMember(dest => dest.Crew, opt => opt.MapFrom(src => src.Credits.Crew))
 				.ForMember(dest => dest.Cast, opt => opt.MapFrom(src => src.Credits.Cast));
 
-			CreateMap<SearchMovie, Movie>();
+			CreateMap<SearchMovie, Movie>()
+				.ForMember(dest => dest.TmdbId, opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest => dest.Description, opt => opt.MapFrom(Src => Src.Overview))
+				.ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.VoteAverage));
 		}
 	}
 }

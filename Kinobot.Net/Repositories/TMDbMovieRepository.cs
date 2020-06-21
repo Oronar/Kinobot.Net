@@ -1,4 +1,5 @@
-using AutoMapper;
+﻿using AutoMapper;
+using Kinobot.Net.Models;
 using Kinobot.Net.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
@@ -56,10 +57,10 @@ namespace Kinobot.Net.Repositories
 			return await GetAsync(searchContainer.Results.First().Id);
 		}
 
-		public async Task<IEnumerable<Movie>> SearchAsync(string query, int page = 0)
+		public async Task<SearchPage<Movie>> SearchAsync(string query, int page = 1)
 		{
 			var searchContainer = await tmdbClient.SearchMovieAsync(query, page);
-			return searchContainer.Results.Select(m => mapper.Map<Movie>(m));
+			return mapper.Map<SearchPage<Movie>>(searchContainer);
 		}
 	}
 }
