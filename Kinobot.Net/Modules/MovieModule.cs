@@ -2,6 +2,7 @@
 using Kinobot.Net.Extensions;
 using Kinobot.Net.Services.Contracts;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Kinobot.Net.Modules
@@ -49,8 +50,31 @@ namespace Kinobot.Net.Modules
 				catch (KeyNotFoundException e)
 				{
 					await loggingService.LogAsync(e.ToString());
-					await ReplyAsync($"Move not found.");
+					await ReplyAsync($"Movie not found.");
 				}
+			});
+		}
+
+		[Command("list")]
+		[Priority(1)]
+		[Summary("Lists movies by title.")]
+		public async Task ListMoviesAsync(params string[] title)
+		{
+			await ExecuteAsync(async () =>
+			{
+				var movies = await movieService.SearchAsync(string.Join(" ", title), 10);
+
+				var stringBuilder = new StringBuilder();
+
+				stringBuilder.AppendLine("```");
+				foreach (var movie in movies)
+				{
+					stringBuilder.Append($"{movie.Title}".PadRight(50, '.'));
+					stringBuilder.AppendLine(($"({movie.ReleaseDate.Year})(TMDB ID: {movie.TmdbId})"));
+				}
+				stringBuilder.Append("```");
+
+				await ReplyAsync(stringBuilder.ToString());
 			});
 		}
 	}
