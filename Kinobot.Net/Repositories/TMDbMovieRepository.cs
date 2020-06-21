@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Kinobot.Net.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
@@ -35,7 +35,10 @@ namespace Kinobot.Net.Repositories
 
 			if (result.Images.Posters.Any())
 			{
-				movie.ImageUri = tmdbClient.GetImageUrl("original", result.Images.Posters.First().FilePath); // TODO: Move into AutoMapper ValueResolver
+				var uri = tmdbClient.GetImageUrl("original", result.Images.Posters.First().FilePath);
+				movie.ImageUri = uri.Scheme.Equals(Uri.UriSchemeHttps, StringComparison.InvariantCultureIgnoreCase)
+					? uri
+					: new Uri(uri.ToString().Replace("http", "https", StringComparison.InvariantCultureIgnoreCase)); // TODO: Move into AutoMapper ValueResolver
 			}
 
 			return movie;
