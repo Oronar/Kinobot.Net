@@ -11,6 +11,9 @@ namespace Kinobot.Net.Profiles
 		{
 			CreateMap<SearchContainer<SearchMovie>, SearchPage<Movie>>()
 				.ForMember(dest => dest.PageTotal, opt => opt.MapFrom(src => src.TotalPages));
+
+			CreateMap<SearchContainer<SearchTv>, SearchPage<TVShow>>()
+				.ForMember(dest => dest.PageTotal, opt => opt.MapFrom(src => src.TotalPages));
 		}
 	}
 }

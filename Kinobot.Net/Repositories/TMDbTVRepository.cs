@@ -52,5 +52,11 @@ namespace Kinobot.Net.Repositories
 
 			return await GetAsync(searchContainer.Results.First().Id);
 		}
+
+		public async Task<SearchPage<TVShow>> SearchAsync(string query, int page = 1)
+		{
+			var searchContainer = await tmdbClient.SearchTvShowAsync(query, page);
+			return mapper.Map<SearchPage<TVShow>>(searchContainer);
+		}
 	}
 }

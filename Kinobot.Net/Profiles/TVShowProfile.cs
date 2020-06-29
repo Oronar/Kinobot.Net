@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Kinobot.Net.Models;
 using System.Linq;
+using TMDbLib.Objects.Search;
 
 namespace Kinobot.Net.Profiles
 {
@@ -18,6 +19,12 @@ namespace Kinobot.Net.Profiles
 				.ForMember(dest => dest.Cast, opt => opt.MapFrom(src => src.Credits.Cast))
 				.ForMember(dest => dest.Seasons, opt => opt.MapFrom(src => src.Seasons))
 				.ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.Genres.Select(g => g.Name)))
+				.ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.VoteAverage));
+
+			CreateMap<SearchTv, TVShow>()
+				.ForMember(dest => dest.TmdbId, opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Name))
+				.ForMember(dest => dest.Description, opt => opt.MapFrom(Src => Src.Overview))
 				.ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.VoteAverage));
 		}
 	}
