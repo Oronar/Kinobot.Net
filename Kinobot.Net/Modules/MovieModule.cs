@@ -2,7 +2,7 @@
 using Kinobot.Net.Extensions;
 using Kinobot.Net.Services.Contracts;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Kinobot.Net.Modules
@@ -63,18 +63,7 @@ namespace Kinobot.Net.Modules
 			await ExecuteAsync(async () =>
 			{
 				var movies = await movieService.SearchAsync(string.Join(" ", title), 10);
-
-				var stringBuilder = new StringBuilder();
-
-				stringBuilder.AppendLine("```");
-				foreach (var movie in movies)
-				{
-					stringBuilder.Append($"{movie.Title}".PadRight(50, '.'));
-					stringBuilder.AppendLine(($"({movie.ReleaseDate.Year})(TMDB ID: {movie.TmdbId})"));
-				}
-				stringBuilder.Append("```");
-
-				await ReplyAsync(stringBuilder.ToString());
+				await DotLeaderReplyAsync(movies.ToDictionary(m => m.Title, m => $"({m.ReleaseDate.Year})(TMDB ID: {m.TmdbId})"));
 			});
 		}
 	}

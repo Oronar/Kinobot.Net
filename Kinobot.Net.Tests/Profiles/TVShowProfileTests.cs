@@ -26,6 +26,8 @@ namespace Kinobot.Net.Tests.Profiles
 			mapper = mapperConfig.CreateMapper();
 		}
 
+		#region TMDB TvShow to TVShow
+
 		[Fact]
 		public void CreateMap_TvShow_TVShow_TmdbIdIsMapped()
 		{
@@ -206,6 +208,62 @@ namespace Kinobot.Net.Tests.Profiles
 			Assert.Equal($"https://www.themoviedb.org/tv/{source.Id}", result.TmdbUri.ToString());
 		}
 
+		#endregion TMDB TvShow to TVShow
+
+		#region SearchTv to TVShow
+
+		[Fact]
+		public void CreateMap_SearchTv_TVSHow_TmdbIdIsMapped()
+		{
+			var source = BuildSourceSearchTv();
+
+			var result = mapper.Map<TVShow>(source);
+
+			Assert.Equal(source.Id, result.TmdbId);
+		}
+
+		[Fact]
+		public void CreateMap_SearchTv_TVSHow_TitleIsMapped()
+		{
+			var source = BuildSourceSearchTv();
+
+			var result = mapper.Map<TVShow>(source);
+
+			Assert.Equal(source.Name, result.Title);
+		}
+
+		[Fact]
+		public void CreateMap_SearchTv_TVSHow_DescriptionIsMapped()
+		{
+			var source = BuildSourceSearchTv();
+
+			var result = mapper.Map<TVShow>(source);
+
+			Assert.Equal(source.Overview, result.Description);
+		}
+
+		[Fact]
+		public void CreateMap_SearchTv_TVSHow_FirstAirDateIsMapped()
+		{
+			var source = BuildSourceSearchTv();
+
+			var result = mapper.Map<TVShow>(source);
+
+			Assert.Equal(source.FirstAirDate, result.FirstAirDate);
+		}
+
+		[Fact]
+		public void CreateMap_SearchTv_TVSHow_RatingIsMapped()
+		{
+			var source = BuildSourceSearchTv();
+
+			var result = mapper.Map<TVShow>(source);
+
+			Assert.Equal(source.VoteAverage, result.Rating);
+		}
+
+		#endregion SearchTv to TVShow
+
 		private TvShow BuildSourceTVShow()
 		{
 			return new TvShow()
@@ -293,6 +351,18 @@ namespace Kinobot.Net.Tests.Profiles
 						SeasonNumber = 2
 					}
 				}
+			};
+		}
+
+		private SearchTv BuildSourceSearchTv()
+		{
+			return new SearchTv()
+			{
+				Id = 1,
+				Name = "Test Show",
+				Overview = "Test show descritpion.",
+				FirstAirDate = DateTime.UtcNow,
+				VoteAverage = 5
 			};
 		}
 	}
