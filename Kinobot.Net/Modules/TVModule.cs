@@ -2,6 +2,7 @@
 using Kinobot.Net.Extensions;
 using Kinobot.Net.Services.Contracts;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Kinobot.Net.Modules
@@ -51,6 +52,18 @@ namespace Kinobot.Net.Modules
 					await loggingService.LogAsync(e.ToString());
 					await ReplyAsync($"TV show not found.");
 				}
+			});
+		}
+
+		[Command("list")]
+		[Priority(1)]
+		[Summary("Lists TV shows by title.")]
+		public async Task ListMoviesAsync(params string[] title)
+		{
+			await ExecuteAsync(async () =>
+			{
+				var shows = await tvService.SearchAsync(string.Join(" ", title), 10);
+				await DotLeaderReplyAsync(shows.ToDictionary(s => s.Title, s => $"({s.FirstAirDate.Year})(TMDB ID: {s.TmdbId})"));
 			});
 		}
 	}
