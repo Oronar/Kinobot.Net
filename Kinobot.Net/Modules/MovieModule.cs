@@ -63,7 +63,7 @@ namespace Kinobot.Net.Modules
 			await ExecuteAsync(async () =>
 			{
 				var movies = await movieService.SearchAsync(string.Join(" ", title), 10);
-				await DotLeaderReplyAsync(movies.ToDictionary(m => m.Title, m => $"({m.ReleaseDate.Year})(TMDB ID: {m.TmdbId})"));
+				await DotLeaderReplyAsync(movies.ToDictionary(m => $"{m.Title} ({m.ReleaseDate.Year})", m => $"(TMDB ID: {m.TmdbId})"));
 			});
 		}
 	}
