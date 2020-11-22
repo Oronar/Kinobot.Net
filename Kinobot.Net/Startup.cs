@@ -58,6 +58,7 @@ namespace Kinobot.Net
 			await Task.Delay(-1);
 		}
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposed when application exits.")]
 		private void ConfigureServices(IServiceCollection services)
 		{
 			// Bot service setup
@@ -75,8 +76,10 @@ namespace Kinobot.Net
 
 			services.AddScoped<IMovieRepository, TMDbMovieRepository>();
 			services.AddTransient<ITVRepository, TMDbTVRepository>();
+			services.AddTransient<ISearchRepository, TMDbSearchRepository>();
 			services.AddTransient<IMovieService, MovieService>();
 			services.AddTransient<ITVService, TVService>();
+			services.AddTransient<ISearchService, SearchService>();
 		}
 	}
 }
