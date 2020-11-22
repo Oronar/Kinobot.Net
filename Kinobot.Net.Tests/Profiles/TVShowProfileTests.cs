@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Kinobot.Net.Models;
 using Kinobot.Net.Profiles;
 using System;
@@ -13,70 +13,27 @@ namespace Kinobot.Net.Tests.Profiles
 {
 	public class TVShowProfileTests
 	{
+		private readonly MapperConfiguration mapperConfiguration;
 		private readonly IMapper mapper;
 
 		public TVShowProfileTests()
 		{
-			var mapperConfig = new MapperConfiguration(cfg =>
+			mapperConfiguration = new MapperConfiguration(cfg =>
 			{
 				cfg.AddProfile(new TVShowProfile());
 				cfg.AddProfile(new CreditProfile());
 				cfg.AddProfile(new SeasonSummaryProfile());
 			});
-			mapper = mapperConfig.CreateMapper();
+			mapper = mapperConfiguration.CreateMapper();
+		}
+
+		[Fact]
+		public void CreateMap_HasValidConfiguration()
+		{
+			mapperConfiguration.AssertConfigurationIsValid();
 		}
 
 		#region TMDB TvShow to TVShow
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_TmdbIdIsMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.Id, result.TmdbId);
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_TitleIsMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.Name, result.Title);
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_DescriptionIsMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.Overview, result.Description);
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_ImdbIdIsMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.ExternalIds.ImdbId, result.ImdbId);
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_FirstAirDateIsMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.FirstAirDate, result.FirstAirDate);
-		}
 
 		[Fact]
 		public void CreateMap_TvShow_TVShow_GenresIsMapped()
@@ -88,181 +45,7 @@ namespace Kinobot.Net.Tests.Profiles
 			Assert.Equal(source.Genres.Count(), result.Genres.Count());
 		}
 
-		[Fact]
-		public void CreateMap_TvShow_TVShow_FirstGenreIsMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.Genres.First().Name, result.Genres.First());
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_CreatorsIsMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.CreatedBy.Count(), result.Creators.Count());
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_FirstCreatorIsMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.CreatedBy.First().Name, result.Creators.First().Name);
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_CrewIsMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.Credits.Crew.Count(), result.Crew.Count());
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_FirstCrewIsMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.Credits.Crew.First().Name, result.Crew.First().Name);
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_CastIsMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.Credits.Cast.Count(), result.Cast.Count());
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_FirstCastIsMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.Credits.Cast.First().Name, result.Cast.First().Name);
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_SeasonsIsMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.Seasons.Count(), result.Seasons.Count());
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_FirstSeasonIsMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.Seasons.First().SeasonNumber, result.Seasons.First().SeasonNumber);
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_RatingMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.VoteAverage, result.Rating);
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_ImdbUriMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal($"https://www.imdb.com/title/{source.ExternalIds.ImdbId}", result.ImdbUri.ToString());
-		}
-
-		[Fact]
-		public void CreateMap_TvShow_TVShow_TmdbUriMapped()
-		{
-			var source = BuildSourceTVShow();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal($"https://www.themoviedb.org/tv/{source.Id}", result.TmdbUri.ToString());
-		}
-
 		#endregion TMDB TvShow to TVShow
-
-		#region SearchTv to TVShow
-
-		[Fact]
-		public void CreateMap_SearchTv_TVSHow_TmdbIdIsMapped()
-		{
-			var source = BuildSourceSearchTv();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.Id, result.TmdbId);
-		}
-
-		[Fact]
-		public void CreateMap_SearchTv_TVSHow_TitleIsMapped()
-		{
-			var source = BuildSourceSearchTv();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.Name, result.Title);
-		}
-
-		[Fact]
-		public void CreateMap_SearchTv_TVSHow_DescriptionIsMapped()
-		{
-			var source = BuildSourceSearchTv();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.Overview, result.Description);
-		}
-
-		[Fact]
-		public void CreateMap_SearchTv_TVSHow_FirstAirDateIsMapped()
-		{
-			var source = BuildSourceSearchTv();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.FirstAirDate, result.FirstAirDate);
-		}
-
-		[Fact]
-		public void CreateMap_SearchTv_TVSHow_RatingIsMapped()
-		{
-			var source = BuildSourceSearchTv();
-
-			var result = mapper.Map<TVShow>(source);
-
-			Assert.Equal(source.VoteAverage, result.Rating);
-		}
-
-		#endregion SearchTv to TVShow
 
 		private TvShow BuildSourceTVShow()
 		{
@@ -351,18 +134,6 @@ namespace Kinobot.Net.Tests.Profiles
 						SeasonNumber = 2
 					}
 				}
-			};
-		}
-
-		private SearchTv BuildSourceSearchTv()
-		{
-			return new SearchTv()
-			{
-				Id = 1,
-				Name = "Test Show",
-				Overview = "Test show descritpion.",
-				FirstAirDate = DateTime.UtcNow,
-				VoteAverage = 5
 			};
 		}
 	}

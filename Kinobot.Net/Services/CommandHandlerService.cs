@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using Kinobot.Net.Services.Contracts;
 using System;
@@ -22,6 +23,7 @@ namespace Kinobot.Net.Services
 		public void InjectCommandHandler()
 		{
 			SocketClient.MessageReceived += HandleCommandAsync;
+			CommandService.CommandExecuted += OnCommandExecutedAsync;
 		}
 
 		private async Task HandleCommandAsync(SocketMessage messageParam)
@@ -31,16 +33,31 @@ namespace Kinobot.Net.Services
 				return;
 			}
 
-			int arumentIndex = 0;
+			int argumentIndex = 0;
 
-			if (!message.HasMentionPrefix(SocketClient.CurrentUser, ref arumentIndex) || message.Author.IsBot)
+			if (!message.HasMentionPrefix(SocketClient.CurrentUser, ref argumentIndex) || message.Author.IsBot)
 			{
 				return;
 			}
 
 			var context = new SocketCommandContext(SocketClient, message);
 
-			await CommandService.ExecuteAsync(context: context, argPos: arumentIndex, services: ServiceProvider);
+			await CommandService.ExecuteAsync(context: context, argPos: argumentIndex, services: ServiceProvider);
+		}
+
+		private async Task OnCommandExecutedAsync(Optional<CommandInfo> command, ICommandContext context, IResult result)
+		{
+			if (!string.IsNullOrEmpty(result?.ErrorReason))
+			{
+				if (result.ErrorReason.Equals("Unknown command.", StringComparison.OrdinalIgnoreCase)) // If command is unknown, pass as a query to search command
+				{
+					int argumentIndex = 0;
+					context.Message.HasMentionPrefix(SocketClient.CurrentUser, ref argumentIndex);
+
+					var modifiedCommand = $"search \"{context.Message.Content.Substring(argumentIndex)}\"";
+					await CommandService.ExecuteAsync(context: context, input: modifiedCommand, services: ServiceProvider);
+				}
+			}
 		}
 	}
 }
