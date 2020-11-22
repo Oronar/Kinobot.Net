@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace Kinobot.Net.Models
 {
-	public class TVShow
+	public class TVShow : Media
 	{
+		public override MediaType MediaType { get { return MediaType.TVShow; } }
 		public int TmdbId { get; set; }
 		public string ImdbId { get; set; }
 		public string Title { get; set; }
