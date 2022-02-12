@@ -3,6 +3,7 @@ using Kinobot.Net.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TMDbLib.Client;
 using MediaType = TMDbLib.Objects.General.MediaType;
@@ -26,7 +27,13 @@ namespace Kinobot.Net.Repositories
 
 		public async Task<Media> MediaSearchAsync(string query)
 		{
-			var searchContainer = await tmdbClient.SearchMultiAsync(query);
+			var regex = new Regex(@"y:(\d{4})");
+			var match = regex.Match(query);
+
+			var year = match.Success ? int.Parse(match.Groups[1].Value) : 0;
+			query = query.Replace($"y:{year}", string.Empty, StringComparison.InvariantCultureIgnoreCase);
+
+			var searchContainer = await tmdbClient.SearchMultiAsync(query, year: year);
 
 			if (!searchContainer.Results.Any())
 			{
